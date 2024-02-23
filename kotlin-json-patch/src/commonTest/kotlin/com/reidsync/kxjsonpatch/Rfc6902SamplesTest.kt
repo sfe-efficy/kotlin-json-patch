@@ -15,7 +15,7 @@
 */
 package com.reidsync.kxjsonpatch
 
-import resources.testdata.TestData_RFC6902_SAMPLES
+import resources.TestData_RFC6902_SAMPLES
 import kotlin.test.Test
 
 /**

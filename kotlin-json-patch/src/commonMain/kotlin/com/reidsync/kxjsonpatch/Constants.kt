@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package com.reidsync.kxjsonpatch
 
 open class Constants {

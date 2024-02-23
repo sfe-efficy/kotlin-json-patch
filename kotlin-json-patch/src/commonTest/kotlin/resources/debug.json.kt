@@ -1,4 +1,4 @@
-package resources.testdata
+package resources
 
 const val TestData_DEBUG: String = """
 [

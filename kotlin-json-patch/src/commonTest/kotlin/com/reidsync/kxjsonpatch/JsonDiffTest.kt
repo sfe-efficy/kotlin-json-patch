@@ -20,7 +20,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
-import resources.testdata.TestData_SAMPLE
+import resources.TestData_SAMPLE
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

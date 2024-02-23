@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package com.reidsync.kxjsonpatch
 
 internal open class Operations {
@@ -14,14 +16,14 @@ internal open class Operations {
     open val MOVE_name = "move"
     open val COPY_name = "copy"
     open val TEST_name = "test"
-    private val OPS = mapOf(
+    private val ops = mapOf(
             ADD_name to ADD,
             REMOVE_name to REMOVE,
             REPLACE_name to REPLACE,
             MOVE_name to MOVE,
             COPY_name to COPY,
             TEST_name to TEST)
-    private val NAMES = mapOf(
+    private val names = mapOf(
             ADD to ADD_name,
             REMOVE to REMOVE_name,
             REPLACE to REPLACE_name,
@@ -30,14 +32,12 @@ internal open class Operations {
             TEST to TEST_name)
 
     fun opFromName(rfcName: String): Int {
-        val res=OPS.get(rfcName.toLowerCase())
-        if(res==null) throw InvalidJsonPatchException("unknown / unsupported operation $rfcName")
+        val res= ops[rfcName.lowercase()] ?: throw InvalidJsonPatchException("unknown / unsupported operation $rfcName")
         return res
     }
 
     fun nameFromOp(operation: Int): String {
-        val res= NAMES.get(operation)
-        if(res==null) throw InvalidJsonPatchException("unknown / unsupported operation $operation")
+        val res= names[operation] ?: throw InvalidJsonPatchException("unknown / unsupported operation $operation")
         return res
     }
 }

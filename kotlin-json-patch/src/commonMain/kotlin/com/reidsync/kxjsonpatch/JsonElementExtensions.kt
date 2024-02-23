@@ -1,3 +1,5 @@
+@file:Suppress("LocalVariableName")
+
 package com.reidsync.kxjsonpatch
 
 import kotlinx.serialization.json.*
