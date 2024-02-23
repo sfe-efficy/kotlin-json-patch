@@ -4,7 +4,7 @@ plugins {
     id("maven-publish.conventions")
 }
 
-group = "io.github.reidsync"
+group = "io.github.sfe-efficy"
 version = "1.0.0"
 
 kotlin {
@@ -47,9 +47,9 @@ kotlin {
 }
 
 android {
-    namespace = "com.reidsync.kxjsonpatch"
-    compileSdk = 34
+    namespace = "com.efficy.kxjsonpatch"
+    compileSdk = 17
     defaultConfig {
-        minSdk = 24
+        minSdk = 17
     }
 }

@@ -63,25 +63,25 @@ publishing {
         pom {
             name.set("kotlin-json-patch")
             description.set("JSON Patch library written exclusively in Kotlin")
-            url.set("https://github.com/ReidSync/kotlin-json-patch")
+            url.set("https://github.com/sfe-efficy/kotlin-json-patch")
 
             licenses {
                 license {
                     name.set("The Apache Software License, Version 2.0")
-                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                 }
             }
             developers {
                 developer {
-                    id.set("ReidSync")
-                    name.set("Reid Byun")
-                    email.set("temphee@gmail.com")
+                    id.set("sfe-efficy")
+                    name.set("Efficy")
+                    email.set("info@efficy.com")
                 }
             }
             scm {
-                connection.set("scm:git:github.com/ReidSync/kotlin-json-patch.git")
-                developerConnection.set("scm:git:ssh://github.com/ReidSync/kotlin-json-patch.git")
-                url.set("https://github.com/ReidSync/kotlin-json-patch/tree/main")
+                connection.set("scm:git:github.com/sfe-efficy/kotlin-json-patch.git")
+                developerConnection.set("scm:git:ssh://github.com/sfe-efficy/kotlin-json-patch.git")
+                url.set("https://github.com/sfe-efficy/kotlin-json-patch/tree/main")
             }
 
         }
