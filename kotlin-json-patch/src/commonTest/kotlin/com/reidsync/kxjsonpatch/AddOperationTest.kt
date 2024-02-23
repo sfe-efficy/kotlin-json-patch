@@ -15,7 +15,7 @@
 */
 package com.reidsync.kxjsonpatch
 
-import resources.testdata.TestData_ADD
+import resources.TestData_ADD
 import kotlin.test.Test
 
 class AddOperationTest : AbstractTest() {

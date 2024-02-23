@@ -1,4 +1,4 @@
-package resources.testdata
+package resources
 
 const val TestData_RFC6902_SAMPLES: String = """
 {

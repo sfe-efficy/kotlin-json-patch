@@ -15,7 +15,7 @@
 */
 package com.reidsync.kxjsonpatch
 
-import resources.testdata.TestData_REPLACE
+import resources.TestData_REPLACE
 import kotlin.test.Test
 
 /**

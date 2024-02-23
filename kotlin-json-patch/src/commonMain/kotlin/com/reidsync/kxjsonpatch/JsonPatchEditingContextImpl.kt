@@ -1,3 +1,5 @@
+@file:Suppress("LocalVariableName")
+
 package com.reidsync.kxjsonpatch
 
 import kotlinx.serialization.json.*
@@ -31,19 +33,23 @@ class JsonPatchEditingContextImpl(var source: JsonElement): JsonPatchEditingCont
 				}
 				else {
 					val fieldToRemove = path[path.size - 1].replace("\"".toRegex(), "")
-					if (parentNode is JsonObject) {
-						val copyp = parentNode.remove(fieldToRemove)
-						println(parentNode)
-						println(copyp)
-						println(root)
-						parentNode = copyp
-					}
-					else if (parentNode is JsonArray) {
-						parentNode = parentNode.remove(arrayIndex(fieldToRemove, parentNode.size - 1))
-						//return parentNode
-					}
-					else {
-						throw JsonPatchApplicationException("[Remove Operation] noSuchPath in source, path provided : " + path)
+					when (parentNode) {
+						is JsonObject -> {
+							val copyp = parentNode.remove(fieldToRemove)
+							println(parentNode)
+							println(copyp)
+							println(root)
+							parentNode = copyp
+						}
+
+						is JsonArray -> {
+							parentNode = parentNode.remove(arrayIndex(fieldToRemove, parentNode.size - 1))
+							//return parentNode
+						}
+
+						else -> {
+							throw JsonPatchApplicationException("[Remove Operation] noSuchPath in source, path provided : " + path)
+						}
 					}
 				}
 				parentNode
@@ -185,16 +191,22 @@ class JsonPatchEditingContextImpl(var source: JsonElement): JsonPatchEditingCont
 			return ret
 		}
 		val key = path[pos]
-		if (ret is JsonArray) {
-			val keyInt = (key.replace("\"".toRegex(), "")).toInt()
-			return getNode(ret[keyInt], path, ++pos)
-		} else if (ret is JsonObject) {
-			if (ret.containsKey(key)) {
-				return getNode(ret[key]!!, path, ++pos)
+		when (ret) {
+			is JsonArray -> {
+				val keyInt = (key.replace("\"".toRegex(), "")).toInt()
+				return getNode(ret[keyInt], path, ++pos)
 			}
-			return null
-		} else {
-			return ret
+
+			is JsonObject -> {
+				if (ret.containsKey(key)) {
+					return getNode(ret[key]!!, path, ++pos)
+				}
+				return null
+			}
+
+			else -> {
+				return ret
+			}
 		}
 	}
 
@@ -210,18 +222,23 @@ class JsonPatchEditingContextImpl(var source: JsonElement): JsonPatchEditingCont
 			return action(ret)
 		}
 		val key = path[pos]
-		if (ret is JsonArray) {
-			val keyInt = (key.replace("\"".toRegex(), "")).toInt()
-			return ret.set(keyInt, findAndAction(ret[keyInt], path, ++pos, action))
-		}
-		else if (ret is JsonObject) {
-			if (ret.containsKey(key)) {
-				return ret.set(key, findAndAction(ret[key]!!, path, ++pos, action))
+		when (ret) {
+			is JsonArray -> {
+				val keyInt = (key.replace("\"".toRegex(), "")).toInt()
+				return ret.set(keyInt, findAndAction(ret[keyInt], path, ++pos, action))
 			}
-			return null
-		} else {
-			// Result
-			return action(ret)
+
+			is JsonObject -> {
+				if (ret.containsKey(key)) {
+					return ret.set(key, findAndAction(ret[key]!!, path, ++pos, action))
+				}
+				return null
+			}
+
+			else -> {
+				// Result
+				return action(ret)
+			}
 		}
 	}
 

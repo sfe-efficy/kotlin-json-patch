@@ -14,6 +14,8 @@
  * limitations under the License.
 */
 
+@file:Suppress("LocalVariableName")
+
 package com.reidsync.kxjsonpatch
 
 import com.reidsync.kxjsonpatch.lcs.ListUtils
@@ -231,7 +233,7 @@ object JsonDiff {
     }
 
 
-    private fun EncodePath(`object`: Any): String {
+    private fun encodePath(`object`: Any): String {
         val path = `object`.toString() // see http://tools.ietf.org/html/rfc6901#section-4
         return path.replace("~".toRegex(), "~0").replace("/".toRegex(), "~1")
     }
@@ -242,7 +244,7 @@ object JsonDiff {
         val sb = StringBuilder()
         for (i in path.indices) {
             sb.append('/')
-            sb.append(EncodePath(path[i]))
+            sb.append(encodePath(path[i]))
 
         }
         return sb.toString()
@@ -291,24 +293,28 @@ object JsonDiff {
                 lcsIdx++
                 pos++
             } else {
-                if (lcsNode == srcNode) { // src node is same as lcs, but not targetNode
-                    //addition
-                    val currPath = getPath(path, pos)
-                    diffs.add(Diff.generateDiff(op.ADD, currPath, targetNode))
-                    pos++
-                    targetIdx++
-                } else if (lcsNode == targetNode) { //targetNode node is same as lcs, but not src
-                    //removal,
-                    val currPath = getPath(path, pos)
-                    diffs.add(Diff.generateDiff(op.REMOVE, currPath, srcNode))
-                    srcIdx++
-                } else {
-                    val currPath = getPath(path, pos)
-                    //both are unequal to lcs node
-                    generateDiffs(diffs, currPath, srcNode, targetNode)
-                    srcIdx++
-                    targetIdx++
-                    pos++
+                when (lcsNode) {
+                    srcNode -> { // src node is same as lcs, but not targetNode
+                        //addition
+                        val currPath = getPath(path, pos)
+                        diffs.add(Diff.generateDiff(op.ADD, currPath, targetNode))
+                        pos++
+                        targetIdx++
+                    }
+                    targetNode -> { //targetNode node is same as lcs, but not src
+                        //removal,
+                        val currPath = getPath(path, pos)
+                        diffs.add(Diff.generateDiff(op.REMOVE, currPath, srcNode))
+                        srcIdx++
+                    }
+                    else -> {
+                        val currPath = getPath(path, pos)
+                        //both are unequal to lcs node
+                        generateDiffs(diffs, currPath, srcNode, targetNode)
+                        srcIdx++
+                        targetIdx++
+                        pos++
+                    }
                 }
             }
         }
@@ -382,12 +388,10 @@ object JsonDiff {
         return toReturn
     }
 
-    private fun getLCS(first_: JsonElement, second_: JsonElement): List<JsonElement> {
-        if (first_ !is JsonArray) throw IllegalArgumentException("LCS can only work on JSON arrays")
-        if (second_ !is JsonArray) throw IllegalArgumentException("LCS can only work on JSON arrays")
-        val first = first_ as JsonArray
-        val second = second_ as JsonArray
-        return ListUtils.longestCommonSubsequence(first.toList(),second.toList())
+    private fun getLCS(first: JsonElement, second: JsonElement): List<JsonElement> {
+        if (first !is JsonArray) throw IllegalArgumentException("LCS can only work on JSON arrays")
+        if (second !is JsonArray) throw IllegalArgumentException("LCS can only work on JSON arrays")
+        return ListUtils.longestCommonSubsequence(first.toList(), second.toList())
     }
 }
 
